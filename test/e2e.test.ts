@@ -20,7 +20,7 @@ d("end to end (dry run)", () => {
       DATABASE_URL: url, EVENTS_API_KEY: "test-key-123", LINK_SECRET: "link-secret-123",
       PUBLIC_BASE_URL: "https://auto.test", SEND_MODE: "dry_run", RAZORPAY_WEBHOOK_SECRET: "rzp-secret",
       TELEGRAM_BOT_USERNAME: "leanprep_test_bot", TELEGRAM_WEBHOOK_SECRET: "tg-secret", COURSE_START: "2026-12-01",
-      LOG_LEVEL: "silent",
+      LOG_LEVEL: "silent", WHATSAPP_ENABLED: "true",
     });
     mod = {
       db: await import("../src/db.js"),
@@ -163,6 +163,26 @@ d("end to end (dry run)", () => {
     expect(n2).toBe(0);
     // Not before the course starts.
     expect(await mod.engine.sweepInactiveBuyers(mod.db.db(), new Date("2026-11-20T07:00:00Z"))).toBe(0);
+  });
+
+  it("with WhatsApp switched off, WhatsApp steps fall back to email", async () => {
+    const { setConfigForTests } = await import("../src/config.js");
+    setConfigForTests({ WHATSAPP_ENABLED: false });
+    try {
+      const { recordEvent } = mod.events;
+      await recordEvent({ type: "signup", email: "neha@example.com", phone: "9123456780", whatsapp_opt_in: true, name: "Neha", props: {} });
+      await recordEvent({ type: "checkout_started", email: "neha@example.com", props: {} });
+      await q("update enrollments set next_run_at = now() - interval '1 minute' where status = 'active'");
+      const noon = new Date();
+      noon.setUTCHours(7, 0, 0, 0);
+      await mod.engine.tick(new Date(Math.max(noon.getTime(), Date.now()) + 86400_000));
+      const rows = await q(
+        "select m.channel from messages m join contacts c on c.id = m.contact_id where c.email = 'neha@example.com' order by m.id",
+      );
+      expect(rows.rows.map((r) => r.channel)).toEqual(["email", "email"]);
+    } finally {
+      setConfigForTests({ WHATSAPP_ENABLED: true });
+    }
   });
 
   it("unsubscribe link works and stops email", async () => {

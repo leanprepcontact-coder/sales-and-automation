@@ -61,7 +61,7 @@ export async function stopSalesFlows(q: Queryable, contactId: string, reason: st
 function reachable(c: Contact, ch: Channel): boolean {
   if (ch === "email") return Boolean(c.email) && !c.email_opt_out;
   if (ch === "telegram") return Boolean(c.telegram_chat_id);
-  return Boolean(c.phone) && c.whatsapp_opt_in;
+  return config().WHATSAPP_ENABLED && Boolean(c.phone) && c.whatsapp_opt_in;
 }
 
 async function loadFacts(q: Queryable, c: Contact, e: EnrollmentRow, template: string | undefined): Promise<Facts> {

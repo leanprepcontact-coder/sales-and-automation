@@ -17,7 +17,7 @@ Rules applied to every message:
 - **Purchase stops all sales flows (A, B, C) immediately.**
 - **Daily caps per person:** 2 emails, 1 WhatsApp, 2 Telegram messages.
 - **No Telegram or WhatsApp between 22:00 and 08:00 IST.** Those messages wait until morning.
-- **WhatsApp only goes to people who opted in.** Telegram only goes to people who connected the bot.
+- **WhatsApp is off by default (`WHATSAPP_ENABLED=false`).** WhatsApp steps then fall back to email or Telegram. When it is on, WhatsApp only goes to people who opted in. Telegram only goes to people who connected the bot.
 - **Every email has an unsubscribe link.**
 
 Flows are defined in `src/flows.ts`. Message copy is in `src/templates.ts`.

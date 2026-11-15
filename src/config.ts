@@ -29,6 +29,7 @@ const schema = z.object({
   TELEGRAM_BOT_USERNAME: z.string().optional().default(""),
   TELEGRAM_WEBHOOK_SECRET: z.string().optional().default(""),
 
+  WHATSAPP_ENABLED: bool,
   WHATSAPP_TOKEN: z.string().optional().default(""),
   WHATSAPP_PHONE_NUMBER_ID: z.string().optional().default(""),
   WHATSAPP_API_VERSION: z.string().default("v21.0"),
