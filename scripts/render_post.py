@@ -3,7 +3,8 @@
 
 Usage:
   python3 scripts/render_post.py --bank qbank.json --id ct-polity-002 --date 2026-11-16 --slot 1 --out out/
-Writes two PNGs:
+  python3 scripts/render_post.py --mains "Question text" --paper GS2 --marks 10 --words 150 --date 2026-11-16 --out out/
+Writes two PNGs for a Prelims question:
   <date>_Q<slot>_question.png  (for Instagram/Telegram: question + options, "comment your answer")
   <date>_Q<slot>_answer.png    (answer reveal with explanation, for the 8 PM Telegram post / Story)
 Needs: playwright (python) with Chrome installed.
@@ -115,14 +116,65 @@ def render(q: dict, day: str, slot: int, out_dir: str) -> list[str]:
     return paths
 
 
+def mains_html(question: str, paper: str, marks: str, words: str, day: str) -> str:
+    nice_day = Date.fromisoformat(day).strftime("%-d %b")
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
+.q{{font-family:'Serif';font-size:calc(var(--fs) + 26px);line-height:1.18}}
+#body{{justify-content:center;padding-bottom:40px}}
+.meta{{margin-top:28px;font-size:26px;color:var(--mute);font-weight:500}}
+.steps{{margin-top:40px;display:flex;flex-direction:column;gap:16px}}
+.step{{display:flex;gap:18px;align-items:center;font-size:28px;font-weight:500}}
+.step b{{flex:none;width:48px;height:48px;border-radius:50%;background:var(--or);color:#fff;display:grid;place-items:center;font-size:24px}}
+</style></head><body>
+<div class="page">
+ <div class="top"><img src="logo.png"><div class="tag">Mains Daily</div></div>
+ <div class="kicker"><span class="pill or">{nice_day}</span><span class="pill">{html.escape(paper)}</span><span class="pill">UPSC Mains 2026</span></div>
+ <h1>Write this <em>answer</em></h1>
+ <div class="body" id="body"><div class="q">{html.escape(question)}</div>
+  <div class="meta">{html.escape(marks)} marks · {html.escape(words)} words</div>
+  <div class="steps">
+   <div class="step"><b>1</b>Write it by hand in {html.escape(words)} words</div>
+   <div class="step"><b>2</b>Upload a photo at leanprep.in</div>
+   <div class="step"><b>3</b>Get a free, detailed evaluation</div>
+  </div></div>
+ <div class="foot"><div class="l">Free evaluation: <span>link in bio</span></div><div class="r">Mentored Mains prep:<br>LEAD Batch</div></div>
+</div></body></html>"""
+
+
+def render_mains(question: str, paper: str, marks: str, words: str, day: str, out_dir: str) -> str:
+    os.makedirs(out_dir, exist_ok=True)
+    with sync_playwright() as p:
+        browser = p.chromium.launch(channel="chrome")
+        page = browser.new_page(viewport={"width": 1080, "height": 1350})
+        tmp = ASSETS / "_post.html"
+        tmp.write_text(mains_html(question, paper, marks, words, day), encoding="utf-8")
+        page.goto(tmp.as_uri())
+        page.evaluate("document.fonts.ready")
+        fit = page.evaluate(FIT_JS)
+        if fit["overflow"]:
+            raise SystemExit("Mains question too long for one card")
+        path = os.path.join(out_dir, f"{day}_Mains.png")
+        page.screenshot(path=path)
+        tmp.unlink(missing_ok=True)
+        browser.close()
+    return path
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
-    ap.add_argument("--bank", required=True)
-    ap.add_argument("--id", required=True)
+    ap.add_argument("--bank")
+    ap.add_argument("--id")
+    ap.add_argument("--mains", help="Mains question text (renders the Mains card instead)")
+    ap.add_argument("--paper", default="GS2")
+    ap.add_argument("--marks", default="10")
+    ap.add_argument("--words", default="150")
     ap.add_argument("--date", required=True)
     ap.add_argument("--slot", type=int, default=1)
     ap.add_argument("--out", default="out")
     a = ap.parse_args()
+    if a.mains:
+        print(render_mains(a.mains, a.paper, a.marks, a.words, a.date, a.out))
+        return
     bank = {q["id"]: q for q in json.load(open(a.bank))}
     for p in render(bank[a.id], a.date, a.slot, a.out):
         print(p)
