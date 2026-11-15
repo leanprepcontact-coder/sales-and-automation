@@ -1,0 +1,42 @@
+{
+  "name": "leanprep-sales-automation",
+  "version": "0.1.0",
+  "description": "LeanPrep LEAD-Prelims sales and marketing automation (standalone test system)",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "worker": "tsx src/worker.ts",
+    "migrate": "tsx scripts/migrate.ts",
+    "import": "tsx scripts/import-csv.ts",
+    "test": "vitest run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leanprepcontact-coder/sales-and-automation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leanprepcontact-coder/sales-and-automation/issues"
+  },
+  "homepage": "https://github.com/leanprepcontact-coder/sales-and-automation#readme",
+  "dependencies": {
+    "@azure/communication-email": "^1.1.0",
+    "csv-parse": "^7.0.3",
+    "fastify": "^5.12.8",
+    "pg": "^8.23.1",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.0"
+  },
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  }
+}
