@@ -17,7 +17,9 @@ import sys
 import tempfile
 
 DEFAULT_SITE = "https://bejewelled-biscuit-6f2caa.netlify.app"
-NOISE = re.compile(r"^(LeanPrep|Page \d+|\d+\s*/\s*\d+|leanprep\.in.*)$", re.I)
+NOISE = re.compile(r"^(LeanPrep|Page \d+|\d+\s*/\s*\d+|\d+|leanprep\.in.*)$", re.I)
+# Running headers/footers, which pdftotext sometimes glues onto the end of a text line.
+FOOTER = re.compile(r"\s*(LEANPREP · .*|LeanPrep · .*(Tests|leanprep\.in).*)$")
 
 
 def fetch(url: str, out: str) -> None:
@@ -26,7 +28,8 @@ def fetch(url: str, out: str) -> None:
 
 def pdf_text(path: str) -> list[str]:
     txt = subprocess.run(["pdftotext", "-raw", path, "-"], check=True, capture_output=True, text=True).stdout
-    return [l.rstrip() for l in txt.splitlines() if l.strip() and not NOISE.match(l.strip())]
+    lines = [FOOTER.sub("", l).rstrip() for l in txt.splitlines()]
+    return [l for l in lines if l.strip() and not NOISE.match(l.strip())]
 
 
 def parse_questions(lines: list[str]) -> dict[int, dict]:

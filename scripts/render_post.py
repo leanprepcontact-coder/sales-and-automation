@@ -20,6 +20,7 @@ from playwright.sync_api import sync_playwright
 
 ASSETS = Path(__file__).resolve().parent.parent / "content" / "assets"
 TELEGRAM = "t.me/leanprep"
+COURSE_LINK = "leanprep.in/lead-prelims"
 
 CSS = """
 @font-face{font-family:'Serif';src:url('instrument-serif-latin-400-normal.woff2')}
@@ -49,6 +50,7 @@ h1 em{color:var(--or)}
 .opt.right b{background:var(--ok);border-color:var(--ok);color:#fff}
 .expl{margin-top:24px;font-size:calc(var(--fs) - 3px);line-height:1.42;color:var(--ink)}
 .expl strong{color:var(--ok)}
+.link{margin:0 -72px;background:var(--or);color:#fff;padding:14px 72px;font-size:26px;font-weight:600;letter-spacing:.01em}
 .foot{margin:0 -72px;background:var(--ink);color:#fff;padding:30px 72px;display:flex;justify-content:space-between;align-items:center}
 .foot .l{font-size:30px;font-weight:600}
 .foot .l span{color:var(--or)}
@@ -65,7 +67,7 @@ def page_html(q: dict, day: str, slot: int, reveal: bool) -> str:
     if reveal:
         title = f"Answer: <em>({q['answer']})</em>"
         expl = f'<div class="expl"><strong>Why:</strong> {html.escape(q["explanation"])}</div>'
-        foot_l = "Free tests like this: <span>link in bio</span>"
+        foot_l = "Try the full test <span>free</span>"
         foot_r = f"LEAD-Prelims 2027<br>{html.escape(q['test'])}"
     else:
         title = "Prelims <em>Daily</em>"
@@ -78,6 +80,7 @@ def page_html(q: dict, day: str, slot: int, reveal: bool) -> str:
  <div class="kicker"><span class="pill or">Q{slot} · {nice_day}</span><span class="pill">{html.escape(q['subject'])}</span></div>
  <h1>{title}</h1>
  <div class="body" id="body"><div class="stem">{html.escape(q['stem'])}</div><div class="opts">{opts}</div>{expl}</div>
+ <div class="link">Free LEAD-Prelims tests → {COURSE_LINK}</div>
  <div class="foot"><div class="l">{foot_l}</div><div class="r">{foot_r}</div></div>
 </div></body></html>"""
 
