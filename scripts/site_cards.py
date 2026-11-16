@@ -61,14 +61,14 @@ def card_html(kicker: list[str], title: str, lead: str, img: str, src: str, step
     st = "".join(f"<div><span>{i}</span> {html.escape(s)}</div>" for i, s in enumerate(steps, 1))
     src_html = f'<div class="src">{html.escape(src)}</div>' if src else ""
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}{EXTRA}</style></head><body><div class="page">
-<div class="top"><img src="logo.png"><div class="tag">LEAD-Prelims 2027</div></div>
+<div class="top"><img src="logo.png"><div class="tag">LEAD Prelims 2027</div></div>
 <div class="kicker">{pills}</div>
 <h1>{title}</h1>
 <div class="lead">{lead}</div>
 <div class="shot"><img src="{img}"></div>{src_html}
 <div class="steps">{st}</div>
 <div class="link">{COURSE_LINK}</div>
-<div class="foot"><div class="l">Free tests + notes · <span>link in bio</span></div><div class="r">LEAD-Prelims 2027<br>by LeanPrep</div></div>
+<div class="foot"><div class="l">Free tests + notes · <span>link in bio</span></div><div class="r">LEAD Prelims 2027<br>by LeanPrep</div></div>
 </div></body></html>"""
 
 
