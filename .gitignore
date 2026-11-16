@@ -3,3 +3,10 @@ dist/
 .env
 *.log
 content/assets/_post.html
+
+# Daily Social Studio build outputs
+__pycache__/
+qbank.json
+facts.json
+out/
+pages/
