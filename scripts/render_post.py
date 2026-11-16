@@ -69,7 +69,7 @@ def page_html(q: dict, day: str, slot: int, reveal: bool) -> str:
         title = f"Answer: <em>({q['answer']})</em>"
         expl = f'<div class="expl"><strong>Why:</strong> {html.escape(q["explanation"])}</div>'
         foot_l = "Try the full test <span>free</span>"
-        foot_r = f"LEAD-Prelims 2027<br>{html.escape(q['test'])}"
+        foot_r = f"LEAD Prelims 2027<br>{html.escape(q['test'])}"
     else:
         title = "Prelims <em>Daily</em>"
         expl = ""
@@ -81,7 +81,7 @@ def page_html(q: dict, day: str, slot: int, reveal: bool) -> str:
  <div class="kicker"><span class="pill or">Q{slot} · {nice_day}</span><span class="pill">{html.escape(q['subject'])}</span></div>
  <h1>{title}</h1>
  <div class="body" id="body"><div class="stem">{html.escape(q['stem'])}</div><div class="opts">{opts}</div>{expl}</div>
- <div class="link">Free LEAD-Prelims tests → {COURSE_LINK}</div>
+ <div class="link">Free LEAD Prelims tests → {COURSE_LINK}</div>
  <div class="foot"><div class="l">{foot_l}</div><div class="r">{foot_r}</div></div>
 </div></body></html>"""
 
@@ -178,7 +178,7 @@ def facts_html(subject: str, facts: list[str], day: str) -> str:
  <h1>5 facts in <em>60 seconds</em></h1>
  <div class="body" id="body"><div class="facts">{items}</div></div>
  <div class="link">Free notes + tests → {COURSE_LINK}</div>
- <div class="foot"><div class="l">Today's quiz at <span>9 AM</span></div><div class="r">Telegram: {TELEGRAM}<br>LEAD-Prelims 2027</div></div>
+ <div class="foot"><div class="l">Today's quiz at <span>9 AM</span></div><div class="r">Telegram: {TELEGRAM}<br>LEAD Prelims 2027</div></div>
 </div></body></html>"""
 
 
