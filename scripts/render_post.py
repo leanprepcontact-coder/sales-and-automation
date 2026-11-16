@@ -77,7 +77,7 @@ def page_html(q: dict, day: str, slot: int, reveal: bool) -> str:
         foot_r = f"Answer + explanation tonight, 8 PM<br>on Telegram: {TELEGRAM}"
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body>
 <div class="page">
- <div class="top"><img src="logo.png"><div class="tag">LEAD-Prelims 2027</div></div>
+ <div class="top"><img src="logo.png"><div class="tag">LEAD Prelims 2027</div></div>
  <div class="kicker"><span class="pill or">Q{slot} · {nice_day}</span><span class="pill">{html.escape(q['subject'])}</span></div>
  <h1>{title}</h1>
  <div class="body" id="body"><div class="stem">{html.escape(q['stem'])}</div><div class="opts">{opts}</div>{expl}</div>
