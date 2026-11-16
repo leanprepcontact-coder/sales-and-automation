@@ -4,6 +4,7 @@
 Usage:
   python3 scripts/render_post.py --bank qbank.json --id ct-polity-002 --date 2026-11-16 --slot 1 --out out/
   python3 scripts/render_post.py --mains "Question text" --paper GS2 --marks 10 --words 150 --date 2026-11-16 --out out/
+  python3 scripts/render_post.py --facts facts.json --date 2026-11-16 --out out/
 Writes two PNGs for a Prelims question:
   <date>_Q<slot>_question.png  (for Instagram/Telegram: question + options, "comment your answer")
   <date>_Q<slot>_answer.png    (answer reveal with explanation, for the 8 PM Telegram post / Story)
@@ -163,11 +164,49 @@ def render_mains(question: str, paper: str, marks: str, words: str, day: str, ou
     return path
 
 
+def facts_html(subject: str, facts: list[str], day: str) -> str:
+    nice_day = Date.fromisoformat(day).strftime("%-d %b")
+    items = "".join(f'<div class="fact"><b>{i}</b><div>{html.escape(f)}</div></div>' for i, f in enumerate(facts, 1))
+    return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
+.facts{{display:flex;flex-direction:column;gap:16px}}
+.fact{{display:flex;gap:20px;align-items:flex-start;background:#fff;border:2px solid var(--line);border-radius:18px;padding:18px 24px;font-size:var(--fs);line-height:1.34;font-weight:500}}
+.fact b{{flex:none;width:46px;height:46px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-size:24px;margin-top:2px}}
+</style></head><body>
+<div class="page">
+ <div class="top"><img src="logo.png"><div class="tag">Morning Revision</div></div>
+ <div class="kicker"><span class="pill or">{nice_day}</span><span class="pill">{html.escape(subject)}</span></div>
+ <h1>5 facts in <em>60 seconds</em></h1>
+ <div class="body" id="body"><div class="facts">{items}</div></div>
+ <div class="link">Free notes + tests → {COURSE_LINK}</div>
+ <div class="foot"><div class="l">Today's quiz at <span>9 AM</span></div><div class="r">Telegram: {TELEGRAM}<br>LEAD-Prelims 2027</div></div>
+</div></body></html>"""
+
+
+def render_facts(subject: str, facts: list[str], day: str, out_dir: str) -> str:
+    os.makedirs(out_dir, exist_ok=True)
+    with sync_playwright() as p:
+        browser = p.chromium.launch(channel="chrome")
+        page = browser.new_page(viewport={"width": 1080, "height": 1350})
+        tmp = ASSETS / "_post.html"
+        tmp.write_text(facts_html(subject, facts, day), encoding="utf-8")
+        page.goto(tmp.as_uri())
+        page.evaluate("document.fonts.ready")
+        fit = page.evaluate(FIT_JS)
+        if fit["overflow"]:
+            raise SystemExit("Facts too long for one card; shorten them")
+        path = os.path.join(out_dir, f"{day}_Morning_Revision.png")
+        page.screenshot(path=path)
+        tmp.unlink(missing_ok=True)
+        browser.close()
+    return path
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--bank")
     ap.add_argument("--id")
     ap.add_argument("--mains", help="Mains question text (renders the Mains card instead)")
+    ap.add_argument("--facts", help="JSON file: {\"subject\": ..., \"facts\": [5 short facts]} (renders the Morning Revision card)")
     ap.add_argument("--paper", default="GS2")
     ap.add_argument("--marks", default="10")
     ap.add_argument("--words", default="150")
@@ -175,6 +214,10 @@ def main() -> None:
     ap.add_argument("--slot", type=int, default=1)
     ap.add_argument("--out", default="out")
     a = ap.parse_args()
+    if a.facts:
+        d = json.load(open(a.facts))
+        print(render_facts(d["subject"], d["facts"], a.date, a.out))
+        return
     if a.mains:
         print(render_mains(a.mains, a.paper, a.marks, a.words, a.date, a.out))
         return
