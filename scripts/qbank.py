@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Builds the LEAD-Prelims free-question bank from the course page's public PDFs.
 
-Usage:  python3 scripts/qbank.py [--site URL] [--out qbank.json]
+Usage:  python3 scripts/qbank.py [--out qbank.json] [--include-csat] [--from-pdfs]
+
+Default source: content/source/tests.json (the course site's own data, 1,155 questions with keys and
+explanations). --from-pdfs falls back to parsing the public PDFs on the site.
 
 Reads <site>/data/items.json, downloads every free GS test's Questions and Answers PDF,
 and writes one JSON record per question:
@@ -73,12 +76,58 @@ def parse_answers(lines: list[str]) -> dict[int, tuple[str, str]]:
     return out
 
 
+SOURCE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "content", "source")
+
+
+def from_source(site: str, include_csat: bool) -> list:
+    """Clean path: the site's own tests.json + items.json (copied into content/source)."""
+    tests = json.load(open(os.path.join(SOURCE, "tests.json")))
+    items = {it["id"]: it for it in json.load(open(os.path.join(SOURCE, "items.json")))}
+    bank = []
+    for tid, t in tests.items():
+        it = items.get(tid, {})
+        section = it.get("section", "")
+        if not include_csat and (section == "CSAT" or tid.startswith("csat")):
+            continue
+        subject = it.get("subject", "")
+        test_name = f"{subject} · {it.get('type', t.get('title', ''))}" if subject and subject != "All subjects" else t.get("title", tid)
+        for q in t["qs"]:
+            opts = q.get("o") or []
+            if len(opts) != 4 or not str(q.get("a", "")).isdigit():
+                continue
+            n = int(q["n"])
+            bank.append({
+                "id": f"{tid}-{n:03d}",
+                "test_id": tid,
+                "test": test_name,
+                "section": section,
+                "subject": subject,
+                "syllabus": it.get("syllabus", ""),
+                "number": n,
+                "stem": q["q"].strip(),
+                "options": dict(zip("abcd", (o.strip() for o in opts))),
+                "answer": "abcd"[int(q["a"])],
+                "explanation": (q.get("e") or "").strip(),
+                "has_image": bool(q.get("img")),
+                "test_url": f"{site}/#subjects",
+            })
+    return bank
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--site", default=DEFAULT_SITE)
     ap.add_argument("--out", default="qbank.json")
+    ap.add_argument("--from-pdfs", action="store_true", help="old path: parse the public PDFs instead of content/source/tests.json")
+    ap.add_argument("--include-csat", action="store_true")
     args = ap.parse_args()
     site = args.site.rstrip("/")
+
+    if not args.from_pdfs and os.path.exists(os.path.join(SOURCE, "tests.json")):
+        bank = from_source(site, args.include_csat)
+        json.dump(bank, open(args.out, "w"), ensure_ascii=False, indent=1)
+        print(f"{len(bank)} questions written to {args.out} (from content/source/tests.json)")
+        return 0
 
     tmp = tempfile.mkdtemp()
     items_path = os.path.join(tmp, "items.json")

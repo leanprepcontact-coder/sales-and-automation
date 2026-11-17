@@ -1,0 +1,386 @@
+[
+ {
+  "id": "notes-polity",
+  "title": "Polity Smaran (complete)",
+  "subject": "Polity",
+  "kind": "Smaran",
+  "pages": 117,
+  "w": 786,
+  "h": 1111,
+  "full": true,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 1: Political Ideas",
+    "p": 6
+   },
+   {
+    "t": "Module 2: How the Constitution Came About",
+    "p": 9
+   },
+   {
+    "t": "Module 3: Nature, Features, Preamble and Constitutional Design",
+    "p": 11
+   },
+   {
+    "t": "Module 4: Territory and Citizenship",
+    "p": 15
+   },
+   {
+    "t": "Module 5: Fundamental Rights",
+    "p": 16
+   },
+   {
+    "t": "Module 6: Directive Principles and Fundamental Duties",
+    "p": 21
+   },
+   {
+    "t": "Module 7: Changing the Constitution and the Basic Structure",
+    "p": 25
+   },
+   {
+    "t": "Module 8: The Justice System beyond the Courtroom",
+    "p": 28
+   },
+   {
+    "t": "Module 9: The Union Executive",
+    "p": 31
+   },
+   {
+    "t": "Module 10: Parliament and State Legislatures",
+    "p": 37
+   },
+   {
+    "t": "Module 11: Courts and Judicial Power",
+    "p": 48
+   },
+   {
+    "t": "Module 12: Government in the States",
+    "p": 53
+   },
+   {
+    "t": "Module 13: Federal Design, Centre-State Relations and Emergencies",
+    "p": 55
+   },
+   {
+    "t": "Module 14: Fiscal Federalism",
+    "p": 59
+   },
+   {
+    "t": "Module 15: Local Self-Government",
+    "p": 61
+   },
+   {
+    "t": "Module 16: Union Territories, Special Areas and Asymmetric Federalism",
+    "p": 64
+   },
+   {
+    "t": "Module 17: Elections, the Representation of the People Acts and the Election Commission",
+    "p": 67
+   },
+   {
+    "t": "Module 18: Parties, Pressure Groups and Polity since 1947",
+    "p": 71
+   },
+   {
+    "t": "Module 19: Constitutional Bodies",
+    "p": 73
+   },
+   {
+    "t": "Module 20: Statutory, Regulatory and Rights Bodies",
+    "p": 75
+   },
+   {
+    "t": "Module 21: Governance and Civil Services",
+    "p": 77
+   },
+   {
+    "t": "Module 22: Language, Services and Special Classes",
+    "p": 81
+   },
+   {
+    "t": "Module 23: Comparing Constitutions",
+    "p": 84
+   },
+   {
+    "t": "Module 24: Landmark Judgments and Doctrines Index",
+    "p": 86
+   },
+   {
+    "t": "Module 25: Developments Tracker 2023-26",
+    "p": 88
+   },
+   {
+    "t": "Ready Reference",
+    "p": 89
+   }
+  ]
+ },
+ {
+  "id": "notes-econ",
+  "title": "Economy Smaran",
+  "subject": "Economy",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 12: Taxation",
+    "p": 3
+   },
+   {
+    "t": "Module 13: Federal Finance and Subsidies",
+    "p": 8
+   }
+  ]
+ },
+ {
+  "id": "notes-st",
+  "title": "Science & Tech Smaran",
+  "subject": "Science & Tech",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 9: AI, Quantum and Cyber Security",
+    "p": 3
+   }
+  ]
+ },
+ {
+  "id": "notes-ir",
+  "title": "IR & Defence Smaran",
+  "subject": "IR & Defence",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 10: Europe",
+    "p": 3
+   },
+   {
+    "t": "Module 11: East Asia, Southeast Asia and the Pacific",
+    "p": 7
+   },
+   {
+    "t": "Module 12: West Asia",
+    "p": 10
+   }
+  ]
+ },
+ {
+  "id": "notes-mod",
+  "title": "Modern History Smaran",
+  "subject": "Modern History",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 12: Rise of Nationalism and the Early Congress",
+    "p": 3
+   },
+   {
+    "t": "Module 13: Swadeshi, Revolutionaries and the War Years",
+    "p": 6
+   }
+  ]
+ },
+ {
+  "id": "notes-hist",
+  "title": "History & Culture Smaran",
+  "subject": "History & Culture",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Medieval 3: Bahmani, Vijayanagara and the Deccan Sultanates",
+    "p": 3
+   },
+   {
+    "t": "Medieval 4: The Mughals and the Later Mughals to 1757",
+    "p": 8
+   }
+  ]
+ },
+ {
+  "id": "notes-env",
+  "title": "Environment Smaran",
+  "subject": "Environment",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 11: Water Pollution",
+    "p": 3
+   },
+   {
+    "t": "Module 12: Waste, Chemicals and Polluting Industries",
+    "p": 6
+   },
+   {
+    "t": "Module 13: Land Degradation and Desertification",
+    "p": 9
+   }
+  ]
+ },
+ {
+  "id": "notes-geo1",
+  "title": "Geography I Smaran: Physical Geography",
+  "subject": "Geography I",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 1: The Earth in Space",
+    "p": 3
+   },
+   {
+    "t": "Module 2: Origin and Interior of the Earth",
+    "p": 8
+   }
+  ]
+ },
+ {
+  "id": "notes-geo2",
+  "title": "Geography II Smaran: Human and Economic Geography",
+  "subject": "Geography II",
+  "kind": "Smaran",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Module 2: World Population: Where, How Many, How Fast",
+    "p": 3
+   },
+   {
+    "t": "Module 3: Composition, Migration and Human Development",
+    "p": 6
+   },
+   {
+    "t": "Module 4: India's People",
+    "p": 8
+   }
+  ]
+ },
+ {
+  "id": "notes-mapc",
+  "title": "Geography Mapping Companion",
+  "subject": "Geography",
+  "kind": "Mapping Companion",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Part A: India (A1 to A44)",
+    "p": 3
+   }
+  ]
+ },
+ {
+  "id": "notes-map",
+  "title": "Geography Mapping Practice Booklet",
+  "subject": "Geography",
+  "kind": "Mapping Practice Booklet",
+  "pages": 10,
+  "w": 786,
+  "h": 1111,
+  "full": false,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "Part A: India: location, ranges, passes, rivers, climate, soils, forests, people and economy",
+    "p": 3
+   }
+  ]
+ },
+ {
+  "id": "notes-ca-jul",
+  "title": "Current Affairs Magazine: July 2026",
+  "subject": "Current Affairs",
+  "kind": "July 2026",
+  "pages": 63,
+  "w": 786,
+  "h": 1111,
+  "full": true,
+  "index_page": 2,
+  "modules": [
+   {
+    "t": "1. Science & Technology",
+    "p": 6
+   },
+   {
+    "t": "2. Environment & Geography",
+    "p": 11
+   },
+   {
+    "t": "3. Places in News",
+    "p": 16
+   },
+   {
+    "t": "4. Economy",
+    "p": 19
+   },
+   {
+    "t": "5. Social Sector",
+    "p": 28
+   },
+   {
+    "t": "6. Polity & Governance",
+    "p": 33
+   },
+   {
+    "t": "7. International Relations & Organisations",
+    "p": 42
+   },
+   {
+    "t": "8. Defence & Security",
+    "p": 48
+   },
+   {
+    "t": "9. History, Art & Culture",
+    "p": 53
+   },
+   {
+    "t": "10. Persons & Awards",
+    "p": 56
+   },
+   {
+    "t": "Rapid revision tables",
+    "p": 58
+   }
+  ]
+ }
+]

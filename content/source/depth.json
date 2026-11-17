@@ -1,0 +1,43 @@
+{
+ "Polity": {
+  "c": 16,
+  "s": 8,
+  "f": 2
+ },
+ "Economy": {
+  "c": 16,
+  "s": 8,
+  "f": 2
+ },
+ "Geography": {
+  "c": 16,
+  "s": 8,
+  "f": 2
+ },
+ "History & Culture": {
+  "c": 16,
+  "s": 8,
+  "f": 3,
+  "note": "Counted together with Modern History"
+ },
+ "Modern History": {
+  "same": "History & Culture"
+ },
+ "Environment": {
+  "c": 10,
+  "s": 4,
+  "f": 1,
+  "extra": "Combined Environment + Science & Tech Full Test"
+ },
+ "Science & Tech": {
+  "c": 10,
+  "s": 4,
+  "f": 1,
+  "extra": "Combined Environment + Science & Tech Full Test"
+ },
+ "IR & Defence": {
+  "c": 12,
+  "s": 6,
+  "f": 2
+ }
+}
