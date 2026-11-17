@@ -15,9 +15,11 @@ Spec:
     {"kind": "cta", "big": "Comment TEST", "sub": "We'll DM you the free Polity test", "secs": 5}
   ]
 }
-Needs Playwright (Chrome) and ffmpeg. Output: H.264 + silent AAC, 30 fps, 0.35 s crossfades.
+Add "voice": "<spoken text>" to any slide for an AI voiceover (scripts/voice.py, Kokoro, free). A slide is
+held at least as long as its voice line plus 0.5 s. Without any "voice" the audio is silent.
+Needs Playwright (Chrome) and ffmpeg. Output: H.264 + AAC, 30 fps, 0.35 s crossfades.
 """
-import argparse, html, json, os, shutil, subprocess, tempfile
+import argparse, html, json, os, shutil, subprocess, sys, tempfile
 from pathlib import Path
 
 ASSETS = Path(__file__).resolve().parent.parent / "content" / "assets"
@@ -98,6 +100,15 @@ def main():
     tmp = Path(tempfile.mkdtemp())
     for f in ASSETS.iterdir():
         shutil.copy(f, tmp / f.name)
+    voices = {}
+    if any(s.get("voice") for s in spec["slides"]):
+        sys.path.insert(0, str(Path(__file__).resolve().parent))
+        from voice import synth
+        for i, s in enumerate(spec["slides"]):
+            if s.get("voice"):
+                voices[i] = synth(s["voice"])
+                dur = len(voices[i][0]) / voices[i][1]
+                s["secs"] = max(float(s.get("secs", 4)), dur + 0.5)
     pngs = []
     with sync_playwright() as p:
         b = p.chromium.launch(channel="chrome")
@@ -116,7 +127,25 @@ def main():
     for png, secs in pngs:
         cmd += ["-loop", "1", "-t", f"{secs + FADE:.2f}", "-framerate", "30", "-i", str(png)]
     total = sum(s for _, s in pngs) + FADE
-    cmd += ["-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo"]
+    if voices:
+        import numpy as np, soundfile as sf
+        sr = 24000
+        buf = np.zeros(int((total + 0.5) * sr), dtype=np.float32)
+        start = 0.0
+        for i, (_, secs) in enumerate(pngs):
+            if i in voices:
+                x, xsr = voices[i]
+                assert xsr == sr
+                a0 = int((start + 0.15) * sr)
+                buf[a0:a0 + len(x)] += x.astype(np.float32)
+            start += secs
+        peak = float(np.abs(buf).max()) or 1.0
+        buf *= 0.9 / peak
+        wav = tmp / "voice.wav"
+        sf.write(str(wav), buf, sr)
+        cmd += ["-i", str(wav)]
+    else:
+        cmd += ["-f", "lavfi", "-t", f"{total:.2f}", "-i", "anullsrc=r=44100:cl=stereo"]
     parts, last, offset = [], "0:v", 0.0
     for i in range(1, len(pngs)):
         offset += pngs[i - 1][1]
