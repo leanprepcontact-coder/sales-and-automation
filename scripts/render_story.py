@@ -160,6 +160,7 @@ def main():
     ap.add_argument("--spec", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--audio")
+    ap.add_argument("--bgm", help="background-music wav; mixed in without re-timing scenes")
     a = ap.parse_args()
     spec = json.loads(Path(a.spec).read_text())
     if a.audio:
@@ -184,8 +185,8 @@ def main():
         total = pg.evaluate("TOTAL")
         n = int(total * FPS)
         cmd = ["ffmpeg", "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", str(FPS), "-i", "-"]
-        if a.audio:
-            cmd += ["-i", a.audio]
+        if a.audio or a.bgm:
+            cmd += ["-i", a.audio or a.bgm]
         else:
             cmd += ["-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo"]
         cmd += ["-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac",
