@@ -1,0 +1,8 @@
+{"tag":"Prelims 2027 · Environment","scenes":[
+{"type":"hook","dur":6,"bubble":"Which one is|NON-POINT?","caption":"30 seconds. One *question."},
+{"type":"river","art":"tannery","dur":7,"caption":"A: Tannery drainpipe. *One outlet."},
+{"type":"river","art":"city","dur":7,"caption":"B: Sewage outfall. Huge city, *one pipe."},
+{"type":"river","art":"farm","dur":8,"caption":"C: Fertiliser runoff. *No single outlet."},
+{"type":"twist","dur":4,"stamp":"ANSWER: C","caption":"Non-point = *spread everywhere."},
+{"type":"cta","dur":4,"big":"Free test","sub":"More traps like this","caption":"Take the free *Environment test."}
+]}

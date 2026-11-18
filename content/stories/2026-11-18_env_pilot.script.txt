@@ -1,0 +1,7 @@
+VOICEOVER SCRIPT (read in one take, ~35 s, relaxed pace, small pause between scenes)
+1 HOOK   : "Aarav has thirty seconds and one question. Which of these is a NON-point source of water pollution?"
+2 TANNERY: "Option A. A tannery drainpipe. One identifiable outlet. That's a point source."
+3 CITY   : "Option B. A city sewage outfall. Looks huge, gathers a whole city's waste, but it still reaches the river at one place."
+4 FARM   : "Option C. Fertiliser washed off farmland by rain. It enters from a wide area, with no single outlet."
+5 TWIST  : "That's the non-point source. Answer: C."
+6 CTA    : "Want more traps like this? Take the free Environment test. Link in bio."
