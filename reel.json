@@ -1,0 +1,69 @@
+{
+ "tag": "Prelims 2027 · Environment",
+ "slides": [
+  {
+   "kind": "hook",
+   "text": "Spot the non‑point source",
+   "secs": 3,
+   "voice": "Thirty second challenge. Which one is a non-point source of water pollution?"
+  },
+  {
+   "kind": "point",
+   "num": "1",
+   "title": "Tannery drainpipe",
+   "rows": [
+    [
+     "Option A",
+     "One identifiable outlet"
+    ],
+    [
+     "Type",
+     "Point source"
+    ]
+   ],
+   "secs": 4,
+   "voice": "One. A tannery drainpipe has one identifiable outlet. That is a point source."
+  },
+  {
+   "kind": "point",
+   "num": "2",
+   "title": "Sewage outfall",
+   "rows": [
+    [
+     "Option B",
+     "Gathers waste from a whole city"
+    ],
+    [
+     "But",
+     "Reaches the river at one place"
+    ]
+   ],
+   "secs": 4,
+   "voice": "Two. A city sewage outfall gathers waste from a whole city, but it still reaches the river at one place."
+  },
+  {
+   "kind": "point",
+   "num": "3",
+   "title": "Fertiliser runoff",
+   "rows": [
+    [
+     "Option C",
+     "Washed off farmland by rain"
+    ],
+    [
+     "Entry",
+     "Wide area, no single outlet"
+    ]
+   ],
+   "secs": 4,
+   "voice": "Three. Fertiliser washed off farmland enters from a wide area, with no single outlet. That is the non-point source."
+  },
+  {
+   "kind": "cta",
+   "big": "Take the free Environment test",
+   "sub": "Link in bio",
+   "secs": 4,
+   "voice": "Take the free Environment test. Link in bio."
+  }
+ ]
+}
