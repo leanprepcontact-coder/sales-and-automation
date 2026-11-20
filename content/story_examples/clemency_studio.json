@@ -1,0 +1,18 @@
+{"tag": "LEAD PRELIMS 2027", "subject": "Polity", "bpm": 120,
+ "scenes": [
+  {"kind": "hook", "stem": "Which Article 72 clemency shortens a sentence without changing its kind?",
+   "options": ["Pardon", "Reprieve", "Commutation", "Remission"], "beats": 12},
+  {"kind": "rewind", "title": "REWIND", "sub": "Four look-alike words", "beats": 4},
+  {"kind": "point", "chips": ["Pardon", "Reprieve", "Commutation", "Remission"], "focus": 0, "label": "Pardon", "anim": "erase",
+   "tag": "WIPED CLEAN", "meaning": "Wipes out the *conviction* and the sentence", "beats": 6},
+  {"kind": "point", "chips": ["Pardon", "Reprieve", "Commutation", "Remission"], "focus": 1, "label": "Reprieve", "anim": "pause",
+   "tag": "JUST A PAUSE", "meaning": "Only *stays* the sentence for a time", "beats": 6},
+  {"kind": "point", "chips": ["Pardon", "Reprieve", "Commutation", "Remission"], "focus": 2, "label": "Commutation", "anim": "morph",
+   "tag": "KIND CHANGES", "meaning": "Swaps the punishment for a *lighter kind*", "beats": 6},
+  {"kind": "point", "chips": ["Pardon", "Reprieve", "Commutation", "Remission"], "focus": 3, "label": "Remission", "anim": "shorten",
+   "tag": "SAME KIND, SHORTER", "meaning": "Cuts the *length*, keeps the kind", "beats": 6},
+  {"kind": "rule", "kicker": "Remember", "lines": [["Remission", "trims the *LENGTH*"], ["Commutation", "changes the *KIND*"]], "beats": 8},
+  {"kind": "answer", "stem": "Which clemency shortens a sentence without changing its kind?",
+   "options": ["Pardon", "Reprieve", "Commutation", "Remission"], "correct": 3, "why": "Remission *trims the length*, not the kind.", "beats": 8},
+  {"kind": "cta", "big": "Daily Prelims quiz + *notes*", "sub": "Free to start", "url": "leanprep.in/lead-prelims", "beats": 8}
+ ]}
