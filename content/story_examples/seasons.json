@@ -1,0 +1,23 @@
+{"tag": "Learn something new · Geography", "voice": "af_nova", "pitch": 1.45,
+ "bar1": "Free daily quiz + notes → leanprep.in/lead-prelims", "bar2": "Daily quiz on Telegram: t.me/leanprep",
+ "scenes": [
+  {"kind": "open", "words": ["Closer to the Sun?", "Farther away?", "A bigger Sun?", "Something else?"],
+   "voice": "Why is June hot and December cold? I was sure I knew. I was wrong.",
+   "cap": ["Why is June hot", "and December cold?"], "min": 5},
+  {"kind": "title", "title": "Let me rewind", "voice": "Let me rewind.", "cap": ["Let me rewind..."], "min": 3},
+  {"kind": "concept", "anim": "tilt", "label": "Earth is tilted", "from": "🌍", "angle": 23.5, "hideAngle": true, "tag": "LEANS TOWARD THE SUN", "chapter": "June 21",
+   "voice": "Earth's axis is tilted. In June, the northern end leans towards the sun.",
+   "cap": ["Earth's axis is tilted.", "In June, the north", "leans towards the sun."], "min": 5.5},
+  {"kind": "concept", "anim": "compare", "mark": "check", "label": "Tilt towards the sun", "from": "🥵", "tag": "SUMMER + LONG DAY", "chapter": "June 21",
+   "voice": "Tilt towards the sun means summer, and a long day.",
+   "cap": ["Tilt towards the sun", "means summer", "and a long day."], "min": 4.5},
+  {"kind": "concept", "anim": "compare", "mark": "check", "label": "December", "from": "🥶", "tag": "THE EFFECTS REVERSE", "chapter": "December 21",
+   "voice": "In December, the northern effects are reversed.",
+   "cap": ["In December,", "the effects reverse."], "min": 4},
+  {"kind": "return", "words": ["Distance from the sun", "Tilt of the axis", "Size of the sun", "Speed of Earth"], "correct": 1, "chapter": "Back to the question",
+   "voice": "So the answer was the tilt of the axis.",
+   "cap": ["The answer:", "the tilt of the axis."], "min": 4.5},
+  {"kind": "cta", "big": "Follow for daily facts", "chapter": "",
+   "voice": "Want a fact like this every day? Follow, and take our free quiz. Link in bio.",
+   "cap": ["A fact like this", "every day?"], "min": 5}
+ ]}

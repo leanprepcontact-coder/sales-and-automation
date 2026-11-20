@@ -24,7 +24,8 @@ import numpy as np, soundfile as sf
 
 HERE = Path(__file__).resolve().parent
 ASSETS = HERE.parent / "content" / "assets"
-FPS = 24
+FPS = 60
+OUT_FPS = 30
 SR = 24000
 
 
@@ -110,7 +111,8 @@ def main():
     for f in range(N):
         seg = voice[int(f / FPS * SR):int((f + 1) / FPS * SR)]
         env[f] = float(np.sqrt(np.mean(seg ** 2))) if len(seg) else 0
-    env = np.clip(env / (env.max() or 1) * 1.6, 0, 1).round(2).tolist()
+    env = np.clip(env / (env.max() or 1) * 1.6, 0, 1)
+    env = np.convolve(np.pad(env, 3, mode="edge"), np.ones(7) / 7, mode="valid").round(3).tolist()
 
     # 3. audio mix (music ducked under voice)
     mus = music(total, spec["scenes"])[:len(voice)]
@@ -124,7 +126,8 @@ def main():
     # 4. frames
     for f in ASSETS.iterdir():
         shutil.copy(f, tmp / f.name)
-    cfg = {"tag": spec.get("tag", "LEAD Prelims 2027"), "scenes": spec["scenes"], "env": env, "fps": FPS, "total": total}
+    cfg = {"tag": spec.get("tag", "LEAD Prelims 2027"), "scenes": spec["scenes"], "env": env, "fps": FPS, "total": total,
+           "bar1": spec.get("bar1"), "bar2": spec.get("bar2")}
     noise = (np.random.default_rng(3).random((256, 256)) * 255).astype(np.uint8)
     import base64, io
     from PIL import Image
@@ -146,11 +149,11 @@ body{margin:0;width:1080px;height:1920px;background:#05080F;overflow:hidden;posi
         pg.goto((tmp / "s.html").as_uri()); pg.wait_for_timeout(500)
         for i in range(N):
             pg.evaluate(f"frame({i / FPS:.4f})")
-            pg.screenshot(path=str(fr / f"{i:05d}.jpg"), type="jpeg", quality=90)
+            pg.screenshot(path=str(fr / f"{i:05d}.jpg"), type="jpeg", quality=88)
         br.close()
     os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
     subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-framerate", str(FPS), "-i", str(fr / "%05d.jpg"), "-i", str(tmp / "mix.wav"),
-                    "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
+                    "-vf", f"tmix=frames=2,fps={OUT_FPS},format=yuv420p", "-r", str(OUT_FPS), "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
                     "-shortest", "-movflags", "+faststart", a.out], check=True)
     shutil.copy(fr / f"{int(N * .45):05d}.jpg", Path(a.out).with_suffix(".cover.jpg"))
     print(a.out, f"{total:.1f}s")

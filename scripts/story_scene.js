@@ -22,9 +22,10 @@ function clock(cx, cy, r, minDeg, o = {}) {
 }
 
 function chiku(x, y, sc, o) {
-  const look = o.look || 0, mouth = o.mouth || 0, blink = o.blink ? 4 : 34, bob = o.bob || 0;
+  const look = (o.look || 0) + Math.sin((o.t || 0) * .9) * .18, mouth = o.mouth || 0, bob = o.bob || 0;
+  const ba = o.blinkAmt || 0, blink = 34 - 30 * ba, closed = ba > .6;
   const worry = o.mood === 'worry';
-  let s = `<g transform="translate(${x},${y + bob}) scale(${sc})">`;
+  let s = `<g transform="translate(${x},${y + bob}) rotate(${Math.sin((o.t || 0) * 1.7) * 2.2} 0 190) scale(${sc})">`;
   s += `<ellipse cx="0" cy="190" rx="100" ry="16" fill="#000" opacity=".3"/>`;
   s += `<ellipse cx="-110" cy="70" rx="34" ry="78" fill="#B27439" transform="rotate(${14 + (o.flap || 0)} -110 70)"/>`;
   s += `<ellipse cx="110" cy="70" rx="34" ry="78" fill="#B27439" transform="rotate(${-14 - (o.flap || 0)} 110 70)"/>`;
@@ -34,7 +35,7 @@ function chiku(x, y, sc, o) {
   s += `<circle cx="0" cy="-58" r="104" fill="#D49A57"/>`;
   [-1, 1].forEach(d => {
     s += `<ellipse cx="${d * 44}" cy="-64" rx="38" ry="${blink}" fill="#fff"/>`;
-    if (!o.blink) s += `<circle cx="${d * 44 + look * 12}" cy="-62" r="19" fill="#161616"/><circle cx="${d * 44 + look * 12 + 6}" cy="-70" r="6" fill="#fff"/>`;
+    if (!closed) s += `<circle cx="${d * 44 + look * 12}" cy="-62" r="19" fill="#161616"/><circle cx="${d * 44 + look * 12 + 6}" cy="-70" r="6" fill="#fff"/>`;
     s += `<line x1="${d * 44 - 30}" y1="${-112 + (worry ? d * 10 + 4 : 0)}" x2="${d * 44 + 30}" y2="${-112 + (worry ? -d * 10 + 4 : 0)}" stroke="#7A4A1C" stroke-width="7" stroke-linecap="round"/>`;
     s += `<circle cx="${d * 70}" cy="-22" r="13" fill="#F4A09A" opacity=".6"/>`;
   });
@@ -91,7 +92,7 @@ function caption(lines, u) {
 function sceneArt(sc, t, F, mouth) {
   const u = clamp((t - sc.t0) / (sc.t1 - sc.t0));
   const lt = t - sc.t0;
-  const blink = (t * 1.0) % 3.3 < 0.12;
+  const ph0 = t % 3.3, blink = ph0 < .16 ? Math.sin(Math.PI * ph0 / .16) : 0;
   let s = '', sat = 1, zoom = 1 + .06 * u, cam = [0, 0];
   const bob = Math.sin(t * 3) * 5;
   if (sc.kind === 'open') {
@@ -99,7 +100,7 @@ function sceneArt(sc, t, F, mouth) {
     s += `<rect width="${W}" height="${FH}" fill="#1C1F26"/><rect y="800" width="${W}" height="200" fill="#101319"/>`;
     const tick = lt * (2 + 2 * u), sec = Math.floor(tick) * 6 + Math.pow(1 - (tick % 1), 6) * 4;
     s += clock(840, 230, 150, 280 + lt * 3, { sec });
-    s += chiku(260, 520, 1.45, { look: .8, mouth, blink, mood: 'worry', bob, t });
+    s += chiku(260, 520, 1.45, { look: .8, mouth, blinkAmt: blink, mood: 'worry', bob, t });
     sc.words.forEach((w, i) => {
       const a = lt * (1.2 + 2.2 * u) + i * Math.PI / 2, r = 215 * (1 - ease((u - .82) / .18) * .55);
       let x = 740 + Math.cos(a) * r * 1.0, y = 560 + Math.sin(a) * r * .8;
@@ -119,8 +120,8 @@ function sceneArt(sc, t, F, mouth) {
     s += `<defs><radialGradient id="lamp" cx=".78" cy=".25" r=".9"><stop offset="0" stop-color="#F6B86A" stop-opacity=".55"/><stop offset="1" stop-color="#F6B86A" stop-opacity="0"/></radialGradient></defs>`;
     s += `<rect width="${W}" height="${FH}" fill="#173B4C"/><rect width="${W}" height="${FH}" fill="url(#lamp)"/><rect y="800" width="${W}" height="200" fill="#2A1A12"/>`;
     s += `<rect x="60" y="90" width="150" height="190" rx="12" fill="#0F2A38" stroke="#E8B04B" stroke-width="6"/><circle cx="135" cy="150" r="30" fill="#F6D58A"/>`;
-    s += chiku(275, 580, 1.4, { look: .6, mouth, blink, bob, flap: Math.sin(t * 8) * 6, mood: sc.worry ? 'worry' : '', t });
-    const px = 690, py = 520, ph = t * 1.5;
+    s += chiku(275, 580, 1.4, { look: .6, mouth, blinkAmt: blink, bob, flap: Math.sin(t * 8) * 6, mood: sc.worry ? 'worry' : '', t });
+    const px = sc.anim === 'tilt' ? 790 : 700, py = 520, ph = t * 1.5;
     const a = sc.anim;
     if (a === 'trim') {
       const grow = ease(u / .22), cutT = clamp((u - .28) / .22);
@@ -141,6 +142,21 @@ function sceneArt(sc, t, F, mouth) {
       s += `<clipPath id="cl"><rect x="${ex}" y="0" width="${W}" height="${FH}"/></clipPath><g clip-path="url(#cl)">${prop(sc.from, px, py, ease(u / .2) || .01, t, ph)}</g>`;
       if (u > .26 && u < .8) s += `<g transform="translate(${ex},${py + 70}) rotate(-8)"><rect x="-70" y="-45" width="140" height="90" rx="14" fill="#F8B4C8"/><rect x="-70" y="-45" width="62" height="90" rx="14" fill="#fff"/></g>`;
       if (u > .8) s += `<g opacity="${ease((u - .8) / .12)}">${card(sc.tag, px, py, 0, { w: 440, fs: 42, stroke: '#7CE3A1' })}</g>`;
+    } else if (a === 'compare') {
+      s += prop(sc.from, px, py, back(u / .25) || .01, t, ph);
+      const f = ease((u - .45) / .2);
+      if (f > 0) {
+        const chk = sc.mark === 'check';
+        s += `<g transform="translate(${px},${py}) scale(${back((u - .45) / .3)})" opacity="${f}">` + (chk ? emoji('✅', 150, -150, 140) : `<line x1="-130" y1="-130" x2="130" y2="130" stroke="#E5383B" stroke-width="30" stroke-linecap="round"/><line x1="130" y1="-130" x2="-130" y2="130" stroke="#E5383B" stroke-width="30" stroke-linecap="round"/>`) + `</g>`;
+      }
+      if (u > .72) s += `<g opacity="${ease((u - .72) / .12)}">${card(sc.tag, px, py + 250, 0, { w: 520, fs: 40, stroke: sc.mark === 'check' ? '#7CE3A1' : '#E5383B' })}</g>`;
+    } else if (a === 'tilt') {
+      const ang = (sc.angle || 23.5) * ease((u - .25) / .35);
+      s += emoji('☀️', px - 270, py - 160, 190 + Math.sin(t * 2) * 8);
+      s += `<line x1="${px + 90}" y1="${py - 240}" x2="${px + 90}" y2="${py + 240}" stroke="#FFE9B8" stroke-width="5" stroke-dasharray="14 12" opacity=".7" transform="rotate(${ang} ${px + 90} ${py})"/>`;
+      s += emoji(sc.from, px + 90, py, 330 * (ease(u / .2) || .01), ang);
+      if (u > .62 && !sc.hideAngle) s += `<g opacity="${ease((u - .62) / .12)}"><text x="${px + 250}" y="${py - 150}" font-size="64" font-weight="700" fill="#FFE9B8">${esc(String(sc.angle || 23.5))}°</text></g>`;
+      if (u > .78) s += `<g opacity="${ease((u - .78) / .12)}">${card(sc.tag, px, py + 270, 0, { w: 520, fs: 40, stroke: '#7CE3A1' })}</g>`;
     } else if (a === 'pause') {
       s += prop(sc.from, px, py, ease(u / .2) || .01, t, ph);
       const f = ease((u - .4) / .2);
@@ -150,48 +166,61 @@ function sceneArt(sc, t, F, mouth) {
       }
       if (u > .78) s += `<g opacity="${ease((u - .78) / .12)}">${card(sc.tag, px, py + 250, 0, { w: 440, fs: 42, stroke: '#7CE3A1' })}</g>`;
     }
-    s += `<g opacity="${ease(u / .12)}">${card(sc.label.toUpperCase(), 540, 70, 0, { w: 620, fs: 56, stroke: '#FF6B00' })}</g>`;
+    { const L = sc.label.length, fs = L > 16 ? 40 : L > 11 ? 48 : 56; s += `<g opacity="${ease(u / .12)}">${card(sc.label.toUpperCase(), 540, 70, 0, { w: Math.min(1000, L * fs * .62 + 90), fs, stroke: '#FF6B00' })}</g>`; }
   } else if (sc.kind === 'return') {
     sat = 0.3 + .7 * ease(u / .5);
     s += `<rect width="${W}" height="${FH}" fill="#1C2A38"/><rect y="800" width="${W}" height="200" fill="#2A1A12"/>`;
     const stop = u > .7;
     s += clock(840, 210, 130, stop ? 0 : 300 + lt * 40, {});
-    s += chiku(260, 560, 1.45, { look: .5, mouth, blink, bob: stop ? Math.sin(t * 12) * 12 : bob, flap: stop ? Math.sin(t * 16) * 14 : 0, mood: stop ? '' : 'worry', t });
+    s += chiku(260, 560, 1.45, { look: .5, mouth, blinkAmt: blink, bob: stop ? Math.sin(t * 12) * 12 : bob, flap: stop ? Math.sin(t * 16) * 14 : 0, mood: stop ? '' : 'worry', t });
     s += `<g transform="translate(700,640) rotate(-4)"><rect x="-210" y="-250" width="420" height="500" rx="14" fill="#FFF8F0"/>`;
-    sc.words.forEach((w, i) => { const hi = i < 2; s += `<text x="-170" y="${-150 + i * 120}" font-size="44" font-weight="700" fill="#101826">(${'abcd'[i]}) ${esc(w)}</text>`; });
+    sc.words.forEach((w, i) => { s += `<text x="-180" y="${-150 + i * 120}" font-size="${w.length > 18 ? 29 : w.length > 12 ? 36 : 42}" font-weight="700" fill="#101826">(${'abcd'[i]}) ${esc(w)}</text>`; });
     const p = clamp((u - .35) / .3), r = 150;
-    s += `<ellipse cx="-20" cy="${-150}" rx="190" ry="48" fill="none" stroke="#D7263D" stroke-width="9" stroke-dasharray="${p * 900} 900" transform="rotate(-2)"/>`;
+    s += `<ellipse cx="-10" cy="${-150 + (sc.correct || 0) * 120}" rx="195" ry="48" fill="none" stroke="#D7263D" stroke-width="9" stroke-dasharray="${p * 900} 900" transform="rotate(-2)"/>`;
     s += `</g>`;
     if (u > .72) s += `<g transform="translate(860,300) scale(${back((u - .72) / .2)})">${emoji('✅', 0, 0, 160)}</g>`;
   } else if (sc.kind === 'cta') {
     s += `<rect width="${W}" height="${FH}" fill="#0B1423"/>`;
-    s += chiku(540, 470, 1.2, { look: 0, mouth, blink, bob, flap: Math.sin(t * 8) * 10, t });
-    s += `<g opacity="${ease(u / .2)}"><rect x="170" y="770" width="740" height="130" rx="65" fill="#FF6B00"/><text x="540" y="858" text-anchor="middle" font-size="72" font-weight="700" fill="#fff">${esc(sc.big)}</text></g>`;
+    s += chiku(540, 470, 1.2, { look: 0, mouth, blinkAmt: blink, bob, flap: Math.sin(t * 8) * 10, t });
+    s += `<g opacity="${ease(u / .2)}"><rect x="170" y="770" width="740" height="130" rx="65" fill="#FF6B00"/><text x="540" y="858" text-anchor="middle" font-size="${sc.big.length > 14 ? 54 : 72}" font-weight="700" fill="#fff">${esc(sc.big)}</text></g>`;
   }
   return { art: s, sat, zoom, cam };
 }
 
-window.frame = function (t) {
-  const sc = CFG.scenes.find(x => t >= x.t0 && t < x.t1) || CFG.scenes[CFG.scenes.length - 1];
-  const fi = Math.min(CFG.env.length - 1, Math.floor(t * CFG.fps));
-  const mouth = CFG.env[fi] || 0;
+const XF = 0.4;
+function layer(sc, t, fi, id, opacity) {
+  const mouth = CFG.env[Math.min(CFG.env.length - 1, fi)] || 0;
   const r = sceneArt(sc, t, fi, mouth);
+  let s = `<defs><filter id="${id}"><feColorMatrix type="saturate" values="${r.sat.toFixed(3)}"/></filter></defs>`;
+  s += `<g opacity="${opacity.toFixed(3)}"><g filter="url(#${id})"><g transform="translate(0,${FY}) translate(540,500) scale(${r.zoom}) translate(-540,-500)">${r.art}</g></g>`;
+  s += `<rect x="0" y="${FY}" width="${W}" height="${FH}" fill="${sc.kind === 'open' ? '#2B4A6B' : '#E8943A'}" opacity=".10"/></g>`;
+  return s;
+}
+window.frame = function (t) {
+  const idx = Math.max(0, CFG.scenes.findIndex(x => t >= x.t0 && t < x.t1));
+  const sc = CFG.scenes[t >= CFG.scenes[CFG.scenes.length - 1].t1 ? CFG.scenes.length - 1 : idx];
+  const fi = Math.floor(t * CFG.fps);
   const u = clamp((t - sc.t0) / (sc.t1 - sc.t0));
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="'Sans', sans-serif">`;
-  s += `<defs><filter id="g"><feColorMatrix type="saturate" values="${r.sat.toFixed(3)}"/></filter><radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".62"/></radialGradient><clipPath id="fr"><rect x="0" y="${FY}" width="${W}" height="${FH}"/></clipPath></defs>`;
-  s += `<rect width="${W}" height="${H}" fill="#05080F"/>`;
-  s += `<g clip-path="url(#fr)"><g filter="url(#g)"><g transform="translate(0,${FY}) translate(540,500) scale(${r.zoom}) translate(-540,-500)">${r.art}</g></g>`;
-  s += `<rect x="0" y="${FY}" width="${W}" height="${FH}" fill="${sc.kind === 'open' ? '#2B4A6B' : '#E8943A'}" opacity=".10"/><rect x="0" y="${FY}" width="${W}" height="${FH}" fill="url(#vg)"/></g>`;
-  // letterbox hairlines + grain
+  s += `<defs><radialGradient id="vg" cx=".5" cy=".5" r=".75"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".62"/></radialGradient><clipPath id="fr"><rect x="0" y="${FY}" width="${W}" height="${FH}"/></clipPath></defs>`;
+  s += `<rect width="${W}" height="${H}" fill="#05080F"/><g clip-path="url(#fr)">`;
+  const k = ease((t - sc.t0) / XF);
+  if (CFG.scenes.indexOf(sc) > 0 && t - sc.t0 < XF) {
+    const pv = CFG.scenes[CFG.scenes.indexOf(sc) - 1];
+    s += layer(pv, Math.min(t, pv.t1 - 0.001), fi, 'gp', 1);
+    s += layer(sc, t, fi, 'gc', k);
+  } else s += layer(sc, t, fi, 'gc', 1);
+  s += `<rect x="0" y="${FY}" width="${W}" height="${FH}" fill="url(#vg)"/></g>`;
   s += `<rect x="0" y="${FY - 3}" width="${W}" height="3" fill="#FF6B00"/><rect x="0" y="${FY + FH}" width="${W}" height="3" fill="#FF6B00"/>`;
   s += `<text x="60" y="130" font-size="34" font-weight="700" fill="#FF6B00" letter-spacing="5">${esc(CFG.tag.toUpperCase())}</text>`;
   s += `<text x="60" y="200" font-size="46" font-weight="500" fill="#C9D3E0" opacity=".9">${esc(sc.chapter || '')}</text>`;
   s += caption(sc.cap || [], u);
-  s += `<rect y="1780" width="${W}" height="70" fill="#FF6B00"/><text x="60" y="1829" font-size="36" font-weight="600" fill="#fff">Free tests + notes → leanprep.in/lead-prelims</text>`;
-  s += `<rect y="1850" width="${W}" height="70" fill="#0A1628"/><text x="60" y="1899" font-size="34" fill="#fff">Daily quiz on Telegram: t.me/leanprep</text>`;
+  s += `<rect y="1780" width="${W}" height="70" fill="#FF6B00"/><text x="60" y="1829" font-size="36" font-weight="600" fill="#fff">${esc(CFG.bar1 || 'Free tests + notes → leanprep.in/lead-prelims')}</text>`;
+  s += `<rect y="1850" width="${W}" height="70" fill="#0A1628"/><text x="60" y="1899" font-size="34" fill="#fff">${esc(CFG.bar2 || 'Daily quiz on Telegram: t.me/leanprep')}</text>`;
   s += `</svg>`;
   document.getElementById('stage').innerHTML = s;
   const gn = document.getElementById('grain');
-  gn.style.backgroundPosition = `${Math.floor(rnd(Math.floor(t * 24)) * 256)}px ${Math.floor(rnd(Math.floor(t * 24) + 9) * 256)}px`;
+  const gf = Math.floor(t * 24);
+  gn.style.backgroundPosition = `${Math.floor(rnd(gf) * 256)}px ${Math.floor(rnd(gf + 9) * 256)}px`;
   gn.style.opacity = sc.kind === 'open' ? .22 : .12;
 };
