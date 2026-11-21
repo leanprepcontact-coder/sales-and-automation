@@ -37,9 +37,10 @@ def main():
 @font-face{font-family:'Serif';font-weight:400;font-style:italic;src:url('instrument-serif-latin-400-italic.woff2')}
 body{margin:0;width:1080px;height:1920px;background:#02040a;overflow:hidden}
 """
-    cfg = {"shots": spec["shots"], "total": total}
+    cfg = {"shots": spec["shots"], "total": total, "q": spec.get("q"), "times": spec.get("times")}
+    scene = spec.get("scene", "film_scene.js")
     html = (f"<html><head><style>{css}</style></head><body><div id='stage'></div>"
-            f"<script>const CFG={json.dumps(cfg)};{(HERE / 'film_scene.js').read_text()}</script></body></html>")
+            f"<script>const CFG={json.dumps(cfg)};{(HERE / scene).read_text()}</script></body></html>")
     (tmp / "s.html").write_text(html)
     N = int(total * FPS)
     from playwright.sync_api import sync_playwright
@@ -60,8 +61,8 @@ body{margin:0;width:1080px;height:1920px;background:#02040a;overflow:hidden}
             br.close(); print("stills done", f"{total:.1f}s", errs[:3]); return
         mix = tmp / "mix.wav"
         if not a.silent:
-            import film_sound
-            film_sound.build(spec, total, str(mix))
+            import importlib
+            importlib.import_module(spec.get("sound", "film_sound")).build(spec, total, str(mix))
         fr = tmp / "fr"; fr.mkdir()
         for i in range(N):
             pg.evaluate(f"frame({i / FPS:.4f})")

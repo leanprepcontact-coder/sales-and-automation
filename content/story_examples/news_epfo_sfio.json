@@ -1,0 +1,62 @@
+{
+  "title": "News to Prelims question: EPFO / SFIO",
+  "scene": "news_scene.js",
+  "sound": "news_sound",
+  "shots": [
+    {
+      "id": "main",
+      "dur": 27.0
+    }
+  ],
+  "times": {
+    "card": 2.4,
+    "q": 6.8,
+    "opts": 8.6,
+    "ans": 13.6,
+    "rule": 16.4,
+    "cta": 22.6
+  },
+  "cover_shot": "main",
+  "cover_at": 9.8,
+  "q": {
+    "hook1": "News today.",
+    "hook2": "Prelims question tomorrow.",
+    "tag": "IN THE NEWS  ·  19 NOV 2026",
+    "headline": "EPFO asks the Corporate Affairs ministry to refer a company case to SFIO",
+    "hl": [
+      "EPFO",
+      "SFIO"
+    ],
+    "question": "In this news, which statement is correct?",
+    "options": [
+      "EPFO works under the Ministry of Corporate Affairs",
+      "SFIO works under the Ministry of Labour",
+      "SFIO got statutory status under the Companies Act, 2013",
+      "EPFO was created by the Companies Act, 2013"
+    ],
+    "answer": 2,
+    "rules": [
+      {
+        "k": "SFIO",
+        "v": "Corporate Affairs ministry. Statutory status under the Companies Act, 2013."
+      },
+      {
+        "k": "EPFO",
+        "v": "Labour ministry. Created under the EPF & MP Act, 1952."
+      }
+    ],
+    "cta": "Daily Prelims quiz + notes",
+    "cta2": "LEAD Prelims 2027",
+    "url": "leanprep.in/lead-prelims",
+    "headline_lines": [
+      "EPFO asks the Corporate",
+      "Affairs ministry to refer",
+      "a company case to SFIO"
+    ]
+  },
+  "sources": [
+    "EPFO asked MCA to refer the case to SFIO: the420.in/?p=143913 (also legacyias.com/?p=186930, 19 Nov 2026 page)",
+    "SFIO under MCA, statutory status via Companies Act 2013 s.211: mca.gov.in/MinistryV2/sfio.html ; ies.gov.in arthapedia SFIO",
+    "EPFO under Ministry of Labour and Employment; CBT statutory body under EPF & MP Act 1952: epfindia.gov.in/site_en/AboutEPFO.php, Our_Board.php"
+  ]
+}
