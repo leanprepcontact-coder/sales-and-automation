@@ -1,0 +1,18 @@
+{"tag": "LEAD PRELIMS 2027", "subject": "Economy", "bpm": 120,
+ "scenes": [
+  {"kind": "hook", "stem": "Which statement on the Fourteenth Finance Commission is correct?",
+   "options": ["Singh, 2021-26, 41%", "41% as Ladakh was carved out", "Sector-specific grants too", "Reddy, States 32% to 42%"], "beats": 12},
+  {"kind": "rewind", "title": "REWIND", "sub": "Four look-alike statements", "beats": 4},
+  {"kind": "point", "chips": ["A", "B", "C", "D"], "focus": 0, "label": "Singh, 2021-26", "anim": "none", "icon": "❌",
+   "tag": "WRONG COMMISSION", "meaning": "That is the *Fifteenth*, at 41%", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["A", "B", "C", "D"], "focus": 1, "label": "41% share", "anim": "none", "icon": "🧩",
+   "tag": "WRONG SHARE", "meaning": "Fourteenth raised it to *42%*", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["A", "B", "C", "D"], "focus": 2, "label": "Sector grants", "anim": "none", "icon": "🚫",
+   "tag": "NONE MADE", "meaning": "It made *no* sector-specific grants", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["A", "B", "C", "D"], "focus": 3, "label": "Reddy, 32 to 42", "anim": "none", "icon": "📈",
+   "tag": "10 POINTS UP", "meaning": "Chair *Y. V. Reddy*, 2015-20", "mark": "check", "beats": 6},
+  {"kind": "rule", "kicker": "Remember", "lines": [["Reddy", "32 to *42*"], ["Singh", "*41*"]], "beats": 8},
+  {"kind": "answer", "stem": "Which statement on the Fourteenth Finance Commission is correct?",
+   "options": ["Singh, 2021-26, 41%", "41% as Ladakh was carved out", "Sector-specific grants too", "Reddy, States 32% to 42%"], "correct": 3, "why": "Reddy raised the States' share *32 to 42*.", "beats": 8},
+  {"kind": "cta", "big": "Daily Prelims quiz + *notes*", "sub": "Free to start", "url": "leanprep.in/lead-prelims", "beats": 8}
+ ]}
