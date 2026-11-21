@@ -1,0 +1,19 @@
+{
+  "title": "Four powers, one pen (Article 72)",
+  "note": "Fictional story. Facts used: Article 72 clemency; remission cuts length keeps kind (2 yrs RI -> 1 yr RI); commutation swaps death for a lighter kind; pardon wipes conviction and sentence; reprieve stays a sentence for a time (source: ct-polity Q5 explanation).",
+  "cover_shot": "desk",
+  "cover_at": 3.4,
+  "shots": [
+    {"id": "cell", "dur": 5.2},
+    {"id": "petition", "dur": 4.0},
+    {"id": "desk", "dur": 4.2},
+    {"id": "reprieve", "dur": 5.0},
+    {"id": "commute", "dur": 5.0},
+    {"id": "remit", "dur": 5.0},
+    {"id": "pardon", "dur": 5.0},
+    {"id": "sign", "dur": 2.2},
+    {"id": "dawn", "dur": 3.8},
+    {"id": "quiz", "dur": 5.0},
+    {"id": "cta", "dur": 3.6}
+  ]
+}
