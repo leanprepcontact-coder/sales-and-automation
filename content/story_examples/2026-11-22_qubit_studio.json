@@ -1,0 +1,18 @@
+{"tag": "LEAD PRELIMS 2027", "subject": "Science & Tech", "bpm": 120,
+ "scenes": [
+  {"kind": "hook", "stem": "Which statement is correct?",
+   "options": ["A qubit holds a mix of 0 and 1; measuring gives one", "Each added qubit adds one configuration", "NCCC reads every message in full", "A qubit is a group of 8 bits"], "beats": 12},
+  {"kind": "rewind", "title": "REWIND", "sub": "Qubit or byte?", "beats": 4},
+  {"kind": "point", "chips": ["Mix of 0 and 1", "Adds one", "NCCC", "8 bits"], "focus": 0, "label": "Mix of 0 and 1", "anim": "none", "icon": "⚛️",
+   "tag": "CORRECT", "meaning": "Weighted *mix*, then measured to one", "mark": "check", "beats": 6},
+  {"kind": "point", "chips": ["Mix of 0 and 1", "Adds one", "NCCC", "8 bits"], "focus": 1, "label": "Adds one", "anim": "none", "icon": "✖️",
+   "tag": "TRAP", "meaning": "Qubits *double*: ten cover 1,024", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["Mix of 0 and 1", "Adds one", "NCCC", "8 bits"], "focus": 2, "label": "NCCC", "anim": "none", "icon": "🛰️",
+   "tag": "TOO MUCH", "meaning": "Watches at *metadata* level only", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["Mix of 0 and 1", "Adds one", "NCCC", "8 bits"], "focus": 3, "label": "8 bits", "anim": "none", "icon": "🔢",
+   "tag": "THAT'S A BYTE", "meaning": "Eight bits describe a *byte*", "mark": "cross", "beats": 6},
+  {"kind": "rule", "kicker": "Remember", "lines": [["A qubit", "is a *mix* until measured"], ["Ten qubits", "make *1,024*"]], "beats": 8},
+  {"kind": "answer", "stem": "Which statement is correct?",
+   "options": ["A qubit holds a mix of 0 and 1; measuring gives one", "Each added qubit adds one configuration", "NCCC reads every message in full", "A qubit is a group of 8 bits"], "correct": 0, "why": "A qubit is a *mix* until measured.", "beats": 8},
+  {"kind": "cta", "big": "Daily Prelims quiz + *notes*", "sub": "Free to start", "url": "leanprep.in/lead-prelims", "beats": 8}
+ ]}
