@@ -18,6 +18,8 @@ def main():
     ap.add_argument("--total", type=float, default=36.5)
     ap.add_argument("--stills")
     ap.add_argument("--audio")
+    ap.add_argument("--scene", default="sketch_scene.js")
+    ap.add_argument("--sound", default="sketch_sound")
     a = ap.parse_args()
     tmp = Path(tempfile.mkdtemp())
     for f in ASSETS.iterdir():
@@ -25,12 +27,14 @@ def main():
     css = """
 @font-face{font-family:'Hand';font-weight:700;src:url('caveat-latin-700-normal.woff2')}
 @font-face{font-family:'Hand';font-weight:500;src:url('caveat-latin-500-normal.woff2')}
+@font-face{font-family:'Disp';font-weight:700;src:url('orbitron-latin-700-normal.woff2')}
+@font-face{font-family:'Mono';font-weight:400;src:url('share-tech-mono-latin-400-normal.woff2')}
 @font-face{font-family:'Hand2';font-weight:400;src:url('patrick-hand-latin-400-normal.woff2')}
-body{margin:0;width:1080px;height:1920px;background:#f3eee2;overflow:hidden}
+body{margin:0;width:1080px;height:1920px;background:#02060d;overflow:hidden}
 """
     html = (f"<html><head><style>{css}</style></head><body><div id='stage'></div>"
             f"<script>{(HERE / 'vendor' / 'rough.js').read_text()}</script>"
-            f"<script>{(HERE / 'sketch_scene.js').read_text()}</script></body></html>")
+            f"<script>{(HERE / a.scene).read_text()}</script></body></html>")
     (tmp / "s.html").write_text(html)
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
@@ -40,7 +44,7 @@ body{margin:0;width:1080px;height:1920px;background:#f3eee2;overflow:hidden}
         pg.on("pageerror", lambda e: errs.append(str(e)))
         pg.on("console", lambda m: errs.append(m.text) if m.type == "error" else None)
         pg.goto((tmp / "s.html").as_uri())
-        pg.evaluate("Promise.all([document.fonts.load('700 40px Hand'),document.fonts.load('500 40px Hand'),document.fonts.load('400 40px Hand2')])")
+        pg.evaluate("Promise.all([document.fonts.load('700 40px Hand'),document.fonts.load('500 40px Hand'),document.fonts.load('400 40px Hand2'),document.fonts.load('700 40px Disp'),document.fonts.load('400 40px Mono')])")
         pg.wait_for_timeout(500)
         if a.stills:
             os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
@@ -50,7 +54,7 @@ body{margin:0;width:1080px;height:1920px;background:#f3eee2;overflow:hidden}
             br.close(); print("stills done", errs[:3]); return
         sc = pg.evaluate("items.filter(i=>!i.isText).map(i=>[i.t0,Math.min(i.dur,1.8)])")
         import sys; sys.path.insert(0, str(HERE))
-        import sketch_sound
+        sketch_sound = __import__(a.sound)
         mix = tmp / "mix.wav"; sketch_sound.build(a.total, str(mix), sc)
         if not a.audio: a.audio = str(mix)
         fr = tmp / "fr"; fr.mkdir()
