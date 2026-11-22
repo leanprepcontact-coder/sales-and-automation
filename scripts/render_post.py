@@ -22,6 +22,8 @@ from playwright.sync_api import sync_playwright
 ASSETS = Path(__file__).resolve().parent.parent / "content" / "assets"
 TELEGRAM = "t.me/leanprep"
 COURSE_LINK = "leanprep.in/lead-prelims"
+CHANNEL = os.environ.get("CARD_CHANNEL", "ig")  # "tg" = Telegram wording (no "link in bio")
+BIO = "leanprep.in" if CHANNEL == "tg" else "link in bio"
 
 CSS = """
 @font-face{font-family:'Serif';src:url('instrument-serif-latin-400-normal.woff2')}
@@ -123,7 +125,7 @@ def render(q: dict, day: str, slot: int, out_dir: str) -> list[str]:
 def mains_html(question: str, paper: str, marks: str, words: str, day: str) -> str:
     nice_day = Date.fromisoformat(day).strftime("%-d %b")
     return f"""<!doctype html><html><head><meta charset="utf-8"><style>{CSS}
-.q{{font-family:'Serif';font-size:calc(var(--fs) + 26px);line-height:1.18}}
+.q{{font-family:'Serif';font-size:calc(var(--fs) + 44px);line-height:1.18}}
 #body{{justify-content:center;padding-bottom:40px}}
 .meta{{margin-top:28px;font-size:26px;color:var(--mute);font-weight:500}}
 .steps{{margin-top:40px;display:flex;flex-direction:column;gap:16px}}
@@ -141,7 +143,7 @@ def mains_html(question: str, paper: str, marks: str, words: str, day: str) -> s
    <div class="step"><b>2</b>Upload a photo at leanprep.in</div>
    <div class="step"><b>3</b>Get a free, detailed evaluation</div>
   </div></div>
- <div class="foot"><div class="l">Free evaluation: <span>link in bio</span></div><div class="r">Mentored Mains prep:<br>LEAD Batch</div></div>
+ <div class="foot"><div class="l">Free evaluation: <span>{BIO}</span></div><div class="r">Mentored Mains prep:<br>LEAD Batch</div></div>
 </div></body></html>"""
 
 
