@@ -112,6 +112,9 @@ def shoot_subject(subject: str, out_png: Path) -> None:
         pg.click("#tabs >> text=Subject tests")
         pg.wait_for_timeout(800)
         pg.add_style_tag(content=".locked{display:none!important}")
+        # Hide floating overlays (e.g. the "Powered by Netlify" badge) so they don't cover the cards.
+        pg.evaluate("""() => { for (const el of document.querySelectorAll('body *')) {
+            if (getComputedStyle(el).position === 'fixed') el.style.display = 'none'; } }""")
         pg.wait_for_timeout(300)
         blocks = pg.locator(".subj")
         target = None
