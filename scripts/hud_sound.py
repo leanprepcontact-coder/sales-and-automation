@@ -40,7 +40,7 @@ def build(total, path, starts):
         put(tone(sc[(k * 3) % 5] * 2, .5, .05, 8, (1, 2)), k * beat / 2); k += 1
     for tcut in [3.7, 9.3, 15.3, 22.7, 29.2, 33.0]:
         put(impact(.55), tcut - 0.05); put(riser(1.4), tcut - 1.4)
-    for ts in starts:   # HUD blips on every new line item
+    for ts in [s[0] if isinstance(s, (list, tuple)) else s for s in starts]:   # HUD blips on every new line item
         put(tone(1800 + (hash(round(ts, 2)) % 4) * 300, .08, .05, 40), ts)
     for ts in [12.0, 12.8]:
         put(tone(880, .5, .2, 5, (1, 2)), ts); put(tone(660, .5, .2, 5, (1, 2)), ts + .22)
