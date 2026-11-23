@@ -1,0 +1,18 @@
+{"tag": "LEAD PRELIMS 2027", "subject": "IR & Defence", "bpm": 120,
+ "scenes": [
+  {"kind": "hook", "stem": "Which one of the following statements is correct?",
+   "options": ["Partnership began 1998; France joined the sanctions", "A tariff cut also removes the EU carbon charge", "The G4 is France, Germany, India and Japan", "The G4 is Germany, India, Brazil and Japan"], "beats": 12},
+  {"kind": "rewind", "title": "REWIND", "sub": "One tempting trap", "beats": 4},
+  {"kind": "point", "chips": ["Sanctions", "Tariff = CBAM", "G4 + France", "G4 + Brazil"], "focus": 0, "label": "Sanctions", "anim": "none", "icon": "🇫🇷",
+   "tag": "HALF RIGHT", "meaning": "Began 1998, but France *skipped* sanctions", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["Sanctions", "Tariff = CBAM", "G4 + France", "G4 + Brazil"], "focus": 1, "label": "Tariff = CBAM", "anim": "none", "icon": "🧾",
+   "tag": "TWO TOOLS", "meaning": "Tariffs and *CBAM* are separate tools", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["Sanctions", "Tariff = CBAM", "G4 + France", "G4 + Brazil"], "focus": 2, "label": "G4 + France", "anim": "none", "icon": "🪤",
+   "tag": "THE TRAP", "meaning": "Tempting: France is already a *Council* member", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["Sanctions", "Tariff = CBAM", "G4 + France", "G4 + Brazil"], "focus": 3, "label": "G4 + Brazil", "anim": "none", "icon": "🌐",
+   "tag": "CORRECT", "meaning": "They back each other's *Council* seats", "mark": "check", "beats": 6},
+  {"kind": "rule", "kicker": "Remember", "lines": [["G4", "Germany, India, *Brazil*, Japan"], ["France", "stayed out of *sanctions*"]], "beats": 8},
+  {"kind": "answer", "stem": "Which one of the following statements is correct?",
+   "options": ["Partnership began 1998; France joined the sanctions", "A tariff cut also removes the EU carbon charge", "The G4 is France, Germany, India and Japan", "The G4 is Germany, India, Brazil and Japan"], "correct": 3, "why": "G4 is Germany, India, *Brazil*, Japan.", "beats": 8},
+  {"kind": "cta", "big": "Daily Prelims quiz + *notes*", "sub": "Free to start", "url": "leanprep.in/lead-prelims", "beats": 8}
+ ]}
