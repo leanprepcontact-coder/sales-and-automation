@@ -1,0 +1,51 @@
+name: Telegram posts
+
+# Posts the day's approved Telegram rows from the Growth OS sheet, slot by slot.
+# Times are UTC (IST minus 5:30), set a few minutes early because GitHub often starts scheduled runs late.
+on:
+  schedule:
+    - cron: "27 2 * * *"   # 7:57 IST  -> 8 AM Morning Revision
+    - cron: "27 3 * * *"   # 8:57 IST  -> 9 AM Q1, Q2 cards + quiz polls
+    - cron: "42 7 * * *"   # 13:12 IST -> 1:15 PM Notes snippet
+    - cron: "27 12 * * *"  # 17:57 IST -> 6 PM Mains
+    - cron: "27 14 * * *"  # 19:57 IST -> 8 PM answers + free-tests card
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: Slot to post
+        required: true
+        type: choice
+        options: [8am, 9am, 115pm, 6pm, 8pm]
+
+concurrency:
+  group: telegram-posts
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Pick slot
+        id: slot
+        run: |
+          case "${{ github.event.schedule }}" in
+            "27 2 * * *")  s=8am ;;
+            "27 3 * * *")  s=9am ;;
+            "42 7 * * *")  s=115pm ;;
+            "27 12 * * *") s=6pm ;;
+            "27 14 * * *") s=8pm ;;
+            *) s="${{ inputs.slot }}" ;;
+          esac
+          echo "slot=$s" >> "$GITHUB_OUTPUT"
+      - name: Post
+        run: python scripts/telegram_post.py "${{ steps.slot.outputs.slot }}"
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          GAS_URL: ${{ secrets.GAS_URL }}
+          FEED_KEY: ${{ secrets.FEED_KEY }}
