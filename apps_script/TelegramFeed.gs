@@ -38,7 +38,11 @@ function build_(slot) {
   } else if (slot === '9am') {
     findRows_('Prelims MCQ').forEach((r, i) => {
       const q = 'Q' + (i + 1);
-      const cap = (block_(r.Caption, 'TELEGRAM 9 AM') || '').split('\n').filter(l => !/^\s*Correct option:/i.test(l)).join('\n');
+      // 24 Nov 2026: question + options are on the card and in the quiz poll, so the caption keeps only title, links and closing line.
+      const lines = (block_(r.Caption, 'TELEGRAM 9 AM') || '').split('\n');
+      const title = lines.find(l => /^\s*🧠/.test(l)) || ('🧠 ' + (r.Subject || '') + ' ' + q + ' · Daily Quiz: read the card and answer in the quiz below.');
+      const links = lines.filter(l => /^\s*📘/.test(l));
+      const cap = [title].concat(links.length ? links : ['📘 Take the free ' + (r.Subject || '') + ' tests and read the free notes: https://leanprep.in/lead-prelims']).join('\n');
       photo_(out, q + ' question', fileId_(r['Image file']), cap, CFG.PRELIMS_CLOSE);
       quiz_(out, r, q);
     });
