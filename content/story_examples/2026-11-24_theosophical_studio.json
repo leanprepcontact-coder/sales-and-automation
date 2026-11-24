@@ -1,0 +1,16 @@
+{"tag": "LEAD PRELIMS 2027", "subject": "Modern History", "bpm": 120,
+ "scenes": [
+  {"kind": "hook", "stem": "Theosophical Society: which statements are correct? 1) Founded in New York, 1875. 2) Adyar HQ in 1886. 3) Besant was a founder.",
+   "options": ["1 only", "2 only", "3 only", "1 and 2 only"], "beats": 12},
+  {"kind": "rewind", "title": "REWIND", "sub": "One tempting name", "beats": 4},
+  {"kind": "point", "chips": ["New York 1875", "Adyar 1886", "Besant founder"], "focus": 0, "label": "New York 1875", "anim": "none", "icon": "🗽",
+   "tag": "CORRECT", "meaning": "Blavatsky and Olcott founded it *here*", "mark": "check", "beats": 6},
+  {"kind": "point", "chips": ["New York 1875", "Adyar 1886", "Besant founder"], "focus": 1, "label": "Adyar 1886", "anim": "none", "icon": "📅",
+   "tag": "WRONG YEAR", "meaning": "Headquarters moved to Adyar in *1882*", "mark": "cross", "beats": 6},
+  {"kind": "point", "chips": ["New York 1875", "Adyar 1886", "Besant founder"], "focus": 2, "label": "Besant founder", "anim": "none", "icon": "🪤",
+   "tag": "THE TRAP", "meaning": "Besant became *president* in 1907", "mark": "cross", "beats": 6},
+  {"kind": "rule", "kicker": "Remember", "lines": [["New York", "*1875*, then Adyar *1882*"], ["Besant", "president in *1907*"]], "beats": 8},
+  {"kind": "answer", "stem": "Theosophical Society: which statements are correct?",
+   "options": ["1 only", "2 only", "3 only", "1 and 2 only"], "correct": 0, "why": "Only *statement 1* is correct.", "beats": 8},
+  {"kind": "cta", "big": "Daily Prelims quiz + *notes*", "sub": "Free to start", "url": "leanprep.in/lead-prelims", "beats": 8}
+ ]}
